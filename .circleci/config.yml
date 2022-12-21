@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  slack: circleci/slack@4.12.0
 
 # commands:
   # destroy-environment:
@@ -50,6 +52,10 @@ jobs:
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
+      - slack/notify:
+          channel: C04CPS646NP
+          event: fail
+          template: basic_fail_1
 
   build-backend:
     docker:
@@ -68,6 +74,10 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
+      - slack/notify:
+          channel: C04CPS646NP
+          event: fail
+          template: basic_fail_1
 
   test-frontend:
     docker:
@@ -86,6 +96,10 @@ jobs:
              cd frontend
              npm install
              npm run test
+      - slack/notify:
+          channel: C04CPS646NP
+          event: fail
+          template: basic_fail_1
                 
   test-backend:
     docker:
@@ -104,6 +118,10 @@ jobs:
              cd backend
              npm install
              npm run test
+      - slack/notify:
+          channel: C04CPS646NP
+          event: fail
+          template: basic_fail_1
             
   scan-frontend:
     docker:
@@ -144,6 +162,10 @@ jobs:
              npm audit fix --force
              npm update path-parse --depth 3
              npm audit --audit-level=critical
+      - slack/notify:
+          channel: C04CPS646NP
+          event: fail
+          template: basic_fail_1
 
 #   deploy-infrastructure:
 #     docker:
