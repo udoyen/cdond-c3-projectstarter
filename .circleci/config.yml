@@ -54,6 +54,10 @@ jobs:
           key: frontend-build
       - slack/notify:
           channel: C04CPS646NP
+          event: pass
+          template: success_tagged_deploy_1
+      - slack/notify:
+          channel: C04CPS646NP
           event: fail
           template: basic_fail_1
 
@@ -98,6 +102,10 @@ jobs:
              npm run test
       - slack/notify:
           channel: C04CPS646NP
+          event: pass
+          template: success_tagged_deploy_1
+      - slack/notify:
+          channel: C04CPS646NP
           event: fail
           template: basic_fail_1
                 
@@ -118,6 +126,10 @@ jobs:
              cd backend
              npm install
              npm run test
+      - slack/notify:
+          channel: C04CPS646NP
+          event: pass
+          template: success_tagged_deploy_1
       - slack/notify:
           channel: C04CPS646NP
           event: fail
@@ -336,11 +348,15 @@ jobs:
 workflows:
   default:
     jobs:
-      - build-frontend
-      - build-backend
+      - build-frontend:
+          context: slack-secrets
+      - build-backend:
+          context: slack-secrets
       - test-frontend:
+          context: slack-secrets
           requires: [build-frontend]
       - test-backend:
+          context: slack-secrets
           requires: [build-backend]
       - scan-backend:
           requires: [build-backend]
