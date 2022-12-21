@@ -53,10 +53,12 @@ jobs:
           paths: [frontend/node_modules]
           key: frontend-build
       - slack/notify:
+          branch_pattern: master
           channel: C04CPS646NP
           event: pass
           template: success_tagged_deploy_1
       - slack/notify:
+          branch_pattern: master
           channel: C04CPS646NP
           event: fail
           template: basic_fail_1
@@ -79,6 +81,12 @@ jobs:
           paths: [backend/node_modules]
           key: backend-build
       - slack/notify:
+          branch_pattern: master
+          channel: C04CPS646NP
+          event: pass
+          template: success_tagged_deploy_1
+      - slack/notify:
+          branch_pattern: master
           channel: C04CPS646NP
           event: fail
           template: basic_fail_1
@@ -101,10 +109,12 @@ jobs:
              npm install
              npm run test
       - slack/notify:
+          branch_pattern: master
           channel: C04CPS646NP
           event: pass
           template: success_tagged_deploy_1
       - slack/notify:
+          branch_pattern: master
           channel: C04CPS646NP
           event: fail
           template: basic_fail_1
@@ -127,10 +137,12 @@ jobs:
              npm install
              npm run test
       - slack/notify:
+          branch_pattern: master
           channel: C04CPS646NP
           event: pass
           template: success_tagged_deploy_1
       - slack/notify:
+          branch_pattern: master
           channel: C04CPS646NP
           event: fail
           template: basic_fail_1
@@ -175,6 +187,7 @@ jobs:
              npm update path-parse --depth 3
              npm audit --audit-level=critical
       - slack/notify:
+          branch_pattern: master
           channel: C04CPS646NP
           event: fail
           template: basic_fail_1
@@ -359,6 +372,7 @@ workflows:
           context: slack-secrets
           requires: [build-backend]
       - scan-backend:
+          context: slack-secrets
           requires: [build-backend]
       - scan-frontend:
           requires: [build-frontend]
