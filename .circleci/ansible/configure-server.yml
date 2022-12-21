@@ -1,4 +1,4 @@
----
+  ---
 
 - name: "configuration play." 
   hosts: web
@@ -26,3 +26,5 @@
 
   roles:
     # Your code here
+
+# VS Code Extension Version: 1.4.0
