@@ -253,8 +253,6 @@ jobs:
           name: Install dependencies
           command: |
             # Your code here
-            yum update && \
-            yum install epel-release && \
             yum install -y tar gzip ansible python3
       # Add ssh keys with fingerprint
       - add_ssh_keys:
