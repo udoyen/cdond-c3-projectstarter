@@ -232,6 +232,11 @@ jobs:
       - slack/notify:
           branch_pattern: master
           channel: C04CPS646NP
+          event: pass
+          template: success_tagged_deploy_1
+      - slack/notify:
+          branch_pattern: master
+          channel: C04CPS646NP
           event: fail
           template: basic_fail_1
       # Here's where you will add some code to rollback on failure  
