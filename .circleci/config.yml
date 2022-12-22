@@ -259,7 +259,7 @@ jobs:
           name: Install dependencies
           command: |
             # Your code here
-            apk add --update ansible
+            apk add --update --no-cache aws-cli, ansible, curl
       - run:
           name: Configure server
           command: |

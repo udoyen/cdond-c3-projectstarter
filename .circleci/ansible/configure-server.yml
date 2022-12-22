@@ -6,7 +6,7 @@
   become: true
   become_method: sudo
   become_user: root  
-  gather_facts: false
+  gather_facts: yes
   vars:
     - NODEJS_VERSION: "12"
     - ansible_python_interpreter: /usr/bin/python3
@@ -29,7 +29,7 @@
       apt:
         name: python3
         state: present
-      when: not python3_present
+      when: not python3_present.exists
       
 
   # Get the environment variables from CircleCI and add to the EC2 instance
