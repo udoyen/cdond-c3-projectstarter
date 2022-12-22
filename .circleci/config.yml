@@ -56,11 +56,11 @@ jobs:
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
-      - slack/notify:
-          branch_pattern: master
-          channel: C04CPS646NP
-          event: pass
-          template: success_tagged_deploy_1
+      # - slack/notify:
+      #     branch_pattern: master
+      #     channel: C04CPS646NP
+      #     event: pass
+      #     template: success_tagged_deploy_1
       - slack/notify:
           branch_pattern: master
           channel: C04CPS646NP
@@ -84,11 +84,11 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
-      - slack/notify:
-          branch_pattern: master
-          channel: C04CPS646NP
-          event: pass
-          template: success_tagged_deploy_1
+      # - slack/notify:
+      #     branch_pattern: master
+      #     channel: C04CPS646NP
+      #     event: pass
+      #     template: success_tagged_deploy_1
       - slack/notify:
           branch_pattern: master
           channel: C04CPS646NP
@@ -229,11 +229,11 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-      - slack/notify:
-          branch_pattern: master
-          channel: C04CPS646NP
-          event: pass
-          template: success_tagged_deploy_1
+      # - slack/notify:
+      #     branch_pattern: master
+      #     channel: C04CPS646NP
+      #     event: pass
+      #     template: success_tagged_deploy_1
       - slack/notify:
           branch_pattern: master
           channel: C04CPS646NP
@@ -259,6 +259,8 @@ jobs:
           name: Install dependencies
           command: |
             # Your code here
+            yum update && \
+            yum install epel-release && \
             yum install -y tar gzip ansible python3
       - run:
           name: Configure server
