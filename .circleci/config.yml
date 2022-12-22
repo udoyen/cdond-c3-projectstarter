@@ -257,7 +257,7 @@ jobs:
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
             unzip awscliv2.zip && \
             ./aws/install && \
-            ls
+            /usr/local/bin/aws --version
       # Add ssh keys with fingerprint
       - add_ssh_keys:
            fingerprints: ["6c:f8:3d:35:4b:aa:19:6a:94:22:b8:52:e1:75:9d:23"]
