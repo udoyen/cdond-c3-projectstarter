@@ -249,12 +249,6 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
-      # Add ssh keys with fingerprint
-      - add_ssh_keys:
-           fingerprints: ["6c:f8:3d:35:4b:aa:19:6a:94:22:b8:52:e1:75:9d:23"]
-      # attach workspace
-      - attach_workspace:
-          at: ~/
       - run:
           name: Install dependencies
           command: |
@@ -262,6 +256,12 @@ jobs:
             yum update && \
             yum install epel-release && \
             yum install -y tar gzip ansible python3
+      # Add ssh keys with fingerprint
+      - add_ssh_keys:
+           fingerprints: ["6c:f8:3d:35:4b:aa:19:6a:94:22:b8:52:e1:75:9d:23"]
+      # attach workspace
+      - attach_workspace:
+          at: ~/
       - run:
           name: Configure server
           command: |
