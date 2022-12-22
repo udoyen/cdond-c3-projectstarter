@@ -28,7 +28,7 @@
       apt:
         name: python3
         state: present
-      when: not python3_present.exists
+      when: not python3_present.stat.exists
       
 
   # Get the environment variables from CircleCI and add to the EC2 instance
