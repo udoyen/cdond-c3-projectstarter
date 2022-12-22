@@ -264,7 +264,8 @@ jobs:
           name: Configure server
           command: |
             # Your code here
-            ansible-playbook -i project/.circleci/ansible/inventory.txt configure-server.yml
+            cd .circleci/ansible
+            ansible-playbook -i inventory.txt configure-server.yml
       # Here's where you will add some code to rollback on failure
 
 
@@ -404,8 +405,8 @@ workflows:
           filters:
             branches:
               only: [master]
-      # - configure-infrastructure:
-      #     requires: [deploy-infrastructure]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
       # - run-migrations:
       #     requires: [configure-infrastructure]
       # - deploy-frontend:

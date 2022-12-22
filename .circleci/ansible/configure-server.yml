@@ -17,10 +17,18 @@
       # Your code here
       ansible.builtin.wait_for_connection:
 
+    - name: Check if python3 is available
+      stat:
+        path: /usr/bin/python3
+      register: python3_present
+
     - name: "install python for Ansible."
       # Your code here
       become: yes
       apt:
+        name: python3
+        state: present
+      when: not python3_present
       
 
   # Get the environment variables from CircleCI and add to the EC2 instance
