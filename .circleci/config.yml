@@ -253,11 +253,13 @@ jobs:
           name: Install dependencies
           command: |
             # Your code here
+            yum install -y gcc libffi-devel python3 epel-release && \
+            yum install -y python3-pip && \
+            yum install -y wget && \
+            yum clean all && \
             yum update -y && \
-            yum install -y tar gzip curl unzip amazon-linux-extras \ 
-                  install ansible2 amazon-linux-extras install epel \
-                  yum-config-manager --enable epel \
-                  yum --enablerepo epel install ansible
+            yum install -y -enablerepo epel tar gzip curl unzip && \
+            python3 -m pip install ansible
       # Add ssh keys with fingerprint
       - add_ssh_keys:
            fingerprints: ["6c:f8:3d:35:4b:aa:19:6a:94:22:b8:52:e1:75:9d:23"]
