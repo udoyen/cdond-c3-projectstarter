@@ -254,7 +254,10 @@ jobs:
           command: |
             # Your code here
             yum update -y && \
-            yum install -y tar gzip curl unzip amazon-linux-extras install ansible2 
+            yum install -y tar gzip curl unzip amazon-linux-extras \ 
+                  install ansible2 amazon-linux-extras install epel \
+                  yum-config-manager --enable epel \
+                  yum --enablerepo epel install ansible
       # Add ssh keys with fingerprint
       - add_ssh_keys:
            fingerprints: ["6c:f8:3d:35:4b:aa:19:6a:94:22:b8:52:e1:75:9d:23"]
