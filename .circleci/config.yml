@@ -258,7 +258,7 @@ jobs:
             yum install -y wget && \
             yum clean all && \
             yum update -y && \
-            yum install -y tar gzip curl unzip && \
+            yum install -y tar gzip curl unzip openssh-server openssh-clients && \
             python3 -m pip install ansible
       # Add ssh keys with fingerprint
       - add_ssh_keys:
