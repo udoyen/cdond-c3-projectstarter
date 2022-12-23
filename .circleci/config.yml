@@ -253,17 +253,19 @@ jobs:
           name: Install dependencies
           command: |
             # Your code here
-            apk add --update --no-cache tar gzip curl unzip ansible && \
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
-            unzip awscliv2.zip && \
-            ./aws/install -i /usr/local/aws-cli -b /usr/local/bin && \
-            /usr/local/bin/aws --version
+            apk add --update --no-cache tar gzip curl unzip ansible
       # Add ssh keys with fingerprint
       - add_ssh_keys:
            fingerprints: ["6c:f8:3d:35:4b:aa:19:6a:94:22:b8:52:e1:75:9d:23"]
       # attach workspace
       - attach_workspace:
           at: ~/
+      - run:
+          name: Install aws-cli
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+            unzip awscliv2.zip && \
+            ./aws/install
       - run:
           name: Configure server
           command: |
