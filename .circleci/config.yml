@@ -294,7 +294,7 @@ jobs:
           name: Install nodejs on amazon centos
           command: |
              yum install -y tar gzip curl unzip
-             curl -sL https://rpm.nodesource.com/setup_13.x | sudo bash -
+             curl -sL https://rpm.nodesource.com/setup_13.x | bash -
              yum install -y nodejs      
       - run:
           name: Run migrations
