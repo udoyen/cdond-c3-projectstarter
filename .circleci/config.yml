@@ -186,6 +186,9 @@ jobs:
              npm audit fix --force
              npm update path-parse --depth 3
              npm audit --audit-level=critical
+      - save_cache:
+          paths: [backend/node_modules]
+          key: scan-backend
       - slack/notify:
           branch_pattern: master
           channel: C04CPS646NP
@@ -291,13 +294,13 @@ jobs:
       - checkout
       - aws-cli/setup
       - restore_cache:
-          keys: [backend-build]      
+          keys: [scan-backend]      
       - run:
           name: Run migrations
           command: |
             cd backend
             # Run and save the migration output
-            npm install --no-audit --no-fund
+            # npm install --no-audit --no-fund
             npm run migrations > migrations_dump.txt
       - run:
           name: Send migration results to kvdb
