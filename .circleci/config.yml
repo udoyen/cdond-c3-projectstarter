@@ -287,14 +287,14 @@ jobs:
       - image: amazon/aws-cli
     steps:
       # Checkout code from git
-      - checkout
+      - checkoutx
       - restore_cache:
           keys: [backend-build]
       - run:
           name: Install nodejs on amazon centos
           command: |
              yum install -y tar gzip curl unzip
-             curl -sL https://rpm.nodesource.com/setup_13.8.0 | sudo bash -
+             curl -sL https://rpm.nodesource.com/setup_13.x | sudo bash -
              yum install -y nodejs      
       - run:
           name: Run migrations
