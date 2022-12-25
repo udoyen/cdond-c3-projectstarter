@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   slack: circleci/slack@4.12.0
+  aws-cli: circleci/aws-cli@3.1.4
 
 commands:
   destroy-environment:
@@ -44,8 +45,10 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys: [frontend-build]
+      - save_cache: 
+          key: frontend-build
+          paths:
+            - ~/d2
       - run:
           name: Build front-end
           command: |
@@ -72,8 +75,10 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys: [backend-build]
+      - save_cache: 
+          key: backend-build
+          paths:
+            - ~/d2
       - run:
           name: Back-end build
           command: |
@@ -104,7 +109,7 @@ jobs:
       - checkout
       # Restore from cache
       - restore_cache:
-          keys: [frontend-build-test]
+          keys: [frontend-build]
       # Your job code here
       - run:
           name: Test frontend
@@ -127,7 +132,7 @@ jobs:
       - checkout
       # Restore from cache
       - restore_cache:
-          keys: [backend-build-test]
+          keys: [backend-build]
       # Your job code here
       - run:
           name: Test backend
@@ -150,7 +155,7 @@ jobs:
       - checkout
       # Restore from cache
       - restore_cache:
-          keys: [scan-frontend]
+          keys: [frontend-build]
       # Your job code here
       - run:
           name: Scan frontend
@@ -174,7 +179,7 @@ jobs:
       - checkout
       # Restore from cache
       - restore_cache:
-          keys: [scan-backend]
+          keys: [backend-build]
       # Your job code here
       - run:
           name: Scan backend
@@ -288,25 +293,15 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
-      - awl-cli/setup
+      - aws-cli/setup
       - restore_cache:
-          keys: [backend-build]
-      # - run:
-      #     name: Install nodejs on amazon centos
-      #     command: |
-      #        yum install -y tar gzip curl unzip
-      #        curl -sL https://rpm.nodesource.com/setup_13.x | sudo bash -
-      #        yum install -y nodejs      
+          keys: [backend-build]      
       - run:
           name: Run migrations
           command: |
             cd backend
             # Run and save the migration output
-            # npm update path-parse --depth 3
             npm install --no-audit --no-fund
-            # npm audit fix --audit-level=critical --force
-            # npm audit fix --force
-            # npm audit --audit-level=critical
             npm run migrations > migrations_dump.txt
       - run:
           name: Send migration results to kvdb
