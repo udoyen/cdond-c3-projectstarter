@@ -2,6 +2,7 @@ version: 2.1
 orbs:
   slack: circleci/slack@4.12.0
   aws-cli: circleci/aws-cli@3.1.4
+  ansible-playbook: orbss/ansible-playbook@0.0.5
 
 commands:
   destroy-environment:
@@ -297,7 +298,11 @@ jobs:
           command: |
             cd backend
             # Run and save the migration output
-            npm install --no-audit --no-fund
+            npm install
+            npm audit fix --audit-level=critical --force
+            npm audit fix --force
+            npm update path-parse --depth 3
+            npm audit --audit-level=critical
             npm run migrations > migrations_dump.txt
       - run:
           name: Send migration results to kvdb
