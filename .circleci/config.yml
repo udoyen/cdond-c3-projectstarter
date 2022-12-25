@@ -287,7 +287,7 @@ jobs:
       - image: amazon/aws-cli
     steps:
       # Checkout code from git
-      - checkoutx
+      - checkout
       - restore_cache:
           keys: [backend-build]
       - run:
