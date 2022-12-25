@@ -284,7 +284,7 @@ jobs:
   run-migrations:
     docker:
       # Docker image here that supports NodeJS
-      - image: amazon/aws-cli
+      - image: circleci/node:13.8.0
     steps:
       # Checkout code from git
       - checkout
@@ -294,7 +294,7 @@ jobs:
           name: Install nodejs on amazon centos
           command: |
              yum install -y tar gzip curl unzip
-             curl -sL https://rpm.nodesource.com/setup_13.x | bash -
+             curl -sL https://rpm.nodesource.com/setup_13.8.0 | bash -
              yum install -y nodejs      
       - run:
           name: Run migrations
