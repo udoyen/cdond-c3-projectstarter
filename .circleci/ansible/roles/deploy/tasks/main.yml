@@ -15,15 +15,16 @@
       state: directory
 
   - name: Unarchive files
-    src: "~/archive.tar.gz"
-    dest: ~/web
+    unarchive:
+      src: "~/project/.circleci/ansible/roles/deploy/files/archive.tar.gz"
+      dest: ~/web
 
   - name: "Start application"
     shell: |
       cd ~/web
-       npm install
-       pm2 stop default
-       pm2 start npm -- start
+      npm install
+      pm2 stop default
+      pm2 start npm -- start
 
 
 # VS Code Extension Version: 1.5.0
