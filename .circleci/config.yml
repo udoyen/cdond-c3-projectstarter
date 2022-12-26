@@ -328,7 +328,7 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            yum install -y tar gzip curl
+            apt install -y tar gzip curl
       - run:
           name: Install npm
           command: |
