@@ -328,7 +328,7 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            apt install -y tar gzip curl
+            sudo apt install -y tar gzip curl
       - run:
           name: Install npm
           command: |
