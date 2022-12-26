@@ -1,11 +1,11 @@
 ---
  - name: "update apt packages."
-   become: yes
+   become: true
    apt:
      update_cache: yes
 
  - name: "upgrade packages"
-   become: yes
+   become: true
    apt:
      upgrade: yes
 
@@ -26,9 +26,11 @@
      state: present
 
  - name: "install pm2"
-   become: yes
+   become: true
    npm:
      name: pm2
      global: yes
      production: yes
      state: present
+
+# VS Code Extension Version: 1.5.0
