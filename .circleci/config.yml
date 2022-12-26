@@ -395,7 +395,7 @@ jobs:
           name: Install dependencies for aws
           command: |
              # your code
-             sudo apt install -y tar rsync gzip curl unzip openssh-server openssh-clients
+             sudo apt install -y tar rsync gzip curl unzip
       - run:
           name: Install dependencies for ansible
           command: |
