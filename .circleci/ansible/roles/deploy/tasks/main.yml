@@ -16,7 +16,7 @@
 
   - name: Unarchive files
     unarchive:
-      src: "~/project/.circleci/ansible/roles/deploy/files/archive.tar.gz"
+      src: "files/artifact.tar.gz"
       dest: ~/web
 
   - name: "Start application"
