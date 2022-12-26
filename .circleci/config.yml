@@ -382,27 +382,20 @@ jobs:
   deploy-backend:
     docker:
       # Docker image here that supports Ansible
-      - image: circleci/node:13.8.0
+      - image: python:3.7-alpine3.16
     steps:
       # Checkout code from git
       - checkout
-      - aws-cli/setup
       # Add ssh keys with fingerprint
       - add_ssh_keys:
            fingerprints: ["6c:f8:3d:35:4b:aa:19:6a:94:22:b8:52:e1:75:9d:23"]
       # attach workspace
       - run:
-          name: Install dependencies for aws
+          name: Install dependencies
           command: |
-             # your code
-             sudo apt install -y tar rsync gzip curl unzip
-      - run:
-          name: Install dependencies for ansible
-          command: |
-            # your code here
-            sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
-            sudo apt update
-            sudo apt install ansible -y
+            apk add --update --no-cache tar gzip nodejs npm aws-cli ansible
+      - restore_cache:
+          keys: [backend-build]
       # attach workspace
       - attach_workspace:
           at: ~/
@@ -415,7 +408,8 @@ jobs:
              cd ..
              # Zip the directory
              tar -C backend -czvf artifact.tar.gz .
-             cp -r artifact.tar.gz ./circle/ansible/roles/files
+             mkdir -p ~/project/.circleci/ansible/roles/deploy/files/
+             cp -r artifact.tar.gz ./circle/ansible/roles/files/
              cd .circleci/ansible
              echo "Contents  of the inventory.txt file is -------"
              cat inventory.txt
