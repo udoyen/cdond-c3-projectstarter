@@ -322,14 +322,14 @@ jobs:
       - image: amazon/aws-cli
     steps:
       # Checkout code from git
-      - checkout
-      - attach_workspace:
-          at: ~/
+      - checkout      
       - run:
           name: Install dependencies
           command: |
             # your code here
             yum install -y tar gzip curl
+      - attach_workspace:
+          at: ~/
       - run:
           name: Get backend url
           command: |
