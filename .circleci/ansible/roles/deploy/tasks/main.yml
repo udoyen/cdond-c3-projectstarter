@@ -1,25 +1,28 @@
 ---
   - name: Update
-    become: true
+    become: yes
     apt:
       update_cache: yes
 
   - name: "upgrade packages"
-    become: true
+    become: yes
     apt: 
       upgrade: yes
 
   - name: Creates directory
+    become: yes
     file:
       path: ~/web
       state: directory
 
   - name: Unarchive files
+    become: yes
     unarchive:
       src: "files/artifact.tar.gz"
       dest: ~/web
 
   - name: "Start application"
+    become: yes
     shell: |
       cd ~/web
       npm install
