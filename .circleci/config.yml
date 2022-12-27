@@ -529,7 +529,8 @@ jobs:
             command: |
               for item in "${STACKS[@]}"
               do
-                if [[ ! "${item##*-}" =~ "${CIRCLE_WORKFLOW_ID:0:7}"  ]]
+                echo "${item##*-}"
+                if [[ ! ${item##*-} =~ ${CIRCLE_WORKFLOW_ID:0:7}  ]]
                 then
                   # your code here
                   aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
