@@ -11,7 +11,6 @@
      upgrade: yes
 
  - name: Install the gpg key for nodejs LTS
-   becoma: yes
    apt_key:
      url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
      state: present
