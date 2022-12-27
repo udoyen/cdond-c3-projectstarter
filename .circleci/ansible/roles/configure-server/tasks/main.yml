@@ -3,6 +3,7 @@
    become: true
    apt:
      update_cache: yes
+     cache_valid_time: 86400
 
  - name: "upgrade packages"
    become: true
@@ -10,23 +11,26 @@
      upgrade: yes
 
  - name: Install the gpg key for nodejs LTS
+   becoma: yes
    apt_key:
      url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
      state: present
     
  - name: Install the nodejs LTS repos
+   become: yes
    apt_repository:
      repo: "deb https://deb.nodesource.com/node_{{ NODEJS_VERSION }}.x {{ ansible_distribution_release }} main"
      state: present
      update_cache: yes
 
  - name: Install the nodejs
+   become: yes
    apt:
      name: nodejs
      state: present
 
  - name: "install pm2"
-   become: true
+   become: yes
    npm:
      name: pm2
      global: yes
