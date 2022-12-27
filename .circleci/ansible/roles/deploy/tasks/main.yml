@@ -9,17 +9,22 @@
     apt: 
       upgrade: yes
 
-  - name: Creates directory
-    become: yes
-    file:
-      path: ~/web
-      state: directory
+  # - name: Creates directory
+  #   become: yes
+  #   file:
+  #     path: ~/web
+  #     state: directory
 
   - name: Unarchive files
     become: yes
     unarchive:
       src: "files/artifact.tar.gz"
-      dest: ~/web
+      dest: .
+
+  # - name: Copy index test page
+  #   template:
+  #     src: "files/*"
+  #     dest: "~/web/index.js"
 
   - name: "Start application"
     become: yes
