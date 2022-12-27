@@ -5,11 +5,32 @@ orbs:
   ansible_upload: orbss/ansible_upload@0.2.8
 
 commands:
+  revert-migrations:
+    description: Revert the last migration if successfully run in the current workflow.
+    parameters:
+      # Add parameter here
+      workflow_id:
+          type: string
+          default: "${CIRCLECI_WORKFLOW_ID}"
+    steps:
+      - run:
+          name: Revert migrations
+          # Add when this will run
+          when: on_fail
+          command: |
+            # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
+            SUCCESS=$(curl -k "https://kvdb.io/4kiawDK2euCm4Mbq4JHknU/migration_<< workflow_id >>")
+            if(( $SUCCESS==1 )); 
+            then
+              cd ~/project/backend
+              npm install
+              npm run migrations:revert
+            fi
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
       # Add parameter here
-      circleci_id:
+      workflow_id:
         type: string
         default: "${CIRCLE_WORKFLOW_ID:0:7}"
     steps:
@@ -18,8 +39,9 @@ commands:
           when: on_fail
           command: |
             # Your code here
-            aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.circleci_id >>
-            aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.circleci_id >>
+            echo "Destroying environment: << parameters.workflow_id >> "
+            aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
+            aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflow_id >>
   remove-bucket-contents:
     description: Remove contents of bucket
     parameters:
@@ -33,27 +55,7 @@ commands:
           command: |
              # your code here
              aws s3 rm s3://udapeople-<< parameters.bucket_name >> --recursive
-  revert-migrations:
-    description: Revert the last migration if successfully run in the current workflow.
-    parameters:
-      # Add parameter here
-      storage_id:
-        type: string
-        default: 'hi'
-    steps:
-      - run:
-          name: Revert migrations
-          # Add when this will run
-          when: on_fail
-          command: |
-            # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS=$(curl -k "https://kvdb.io/4kiawDK2euCm4Mbq4JHknU/migration_${CIRCLE_WORKFLOW_ID:0:7}")
-            if(( $SUCCESS==1 )); 
-            then
-              cd ~/project/backend
-              npm install
-              npm run migrations:revert
-            fi
+  
             
 jobs:
   build-frontend:
@@ -465,6 +467,7 @@ jobs:
               return 1
             fi
       # Here's where you will add some code to rollback on failure
+      - revert-migrations
       - remove-bucket-contents
       - destroy-environment
 
