@@ -523,23 +523,25 @@ jobs:
               echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
               # Fetch the stack names
               export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
-              --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
+              --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
+              STACKSID=($(aws cloudformation describe-stacks --query "Stacks[*].Outputs[?OutputKey==\`ID\`].OutputValue" --output text))
+              echo Stack ids: "${STACKSID[@]}"
               echo Stack names: "${STACKS[@]}"
               echo $OldWorkflowID ${CIRCLE_WORKFLOW_ID:0:7}
               
-              for (( index=0; index<${#STACKS[@]}; index+=2 )) 
-              do
-                if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${STACKS[index]##*-}" ]]
-                then
-                    # your code here
-                    echo "----------Deletes cofirmed------------"
-                    aws s3 rm "s3://bucket-${STACKS[index]##*-}" --recursive
-                    aws cloudformation delete-stack --stack-name "${STACKS[index]}"
-                    aws cloudformation delete-stack --stack-name "${STACKS[((++index))]}"
-                else
-                    echo "----------Cannot cleanup------------"
-                fi
-              done
+              # for (( index=0; index<${#STACKS[@]}; index+=2 )) 
+              # do
+              #   if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${STACKS[index]##*-}" ]]
+              #   then
+              #       # your code here
+              #       echo "----------Deletes cofirmed------------"
+              #       aws s3 rm "s3://bucket-${STACKS[index]##*-}" --recursive
+              #       aws cloudformation delete-stack --stack-name "${STACKS[index]}"
+              #       aws cloudformation delete-stack --stack-name "${STACKS[((++index))]}"
+              #   else
+              #       echo "----------Cannot cleanup------------"
+              #   fi
+              # done
 
 
 workflows:
