@@ -494,6 +494,7 @@ jobs:
             --query "Exports[?Name==\`WorkflowID\`].Value" \
             --no-paginate --output text)
             echo "${OldWorkflowID}" >> ~/OldWorkflowID.txt
+            echo "${OldWorkflowID}"
             aws cloudformation deploy \
             --template-file .circleci/files/cloudfront.yml \
             --stack-name InitialStack \
@@ -518,30 +519,25 @@ jobs:
               export OldWorkflowID=$(aws cloudformation \
                 list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
                   --no-paginate --output text)
-              echo $OldWorkflowID >> ~/OldWorkflowID.txt
-              cat ~/OldWorkflowID.txt
-              export OldWorkflowID=$(cat ~/OldWorkflowID.txt)
               echo OldWorkflowID: "${OldWorkflowID}"
               echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
               # Fetch the stack names
               export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
               --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
               echo Stack names: "${STACKS[@]}"
-        - run:
-            name: Remove old stacks
-            command: |
-              echo $OldWorkflowID $STACKS ${CIRCLE_WORKFLOW_ID:0:7}
-              if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
-              then
-                  # your code here
-                  echo "----------Deletes cofirmed------------"
-                  echo $OldWorkflowID $STACKS ${CIRCLE_WORKFLOW_ID:0:7}
-                  aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
-                  aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
-                  aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
-              else
-                   echo "----------Cannot cleanup------------"
-              fi
+              echo $OldWorkflowID ${CIRCLE_WORKFLOW_ID:0:7}
+              for item in "${STACKS[@]}"
+              do
+                if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${item##*-}" ]]
+                then
+                    # your code here
+                    echo "----------Deletes cofirmed------------"
+                    aws s3 rm "s3://${item}" --recursive
+                    aws cloudformation delete-stack --stack-name "${item}"
+                    aws cloudformation delete-stack --stack-name "${item}"
+                else
+                    echo "----------Cannot cleanup------------"
+                fi
 
 
 workflows:
