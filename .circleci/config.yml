@@ -526,18 +526,20 @@ jobs:
               --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
               echo Stack names: "${STACKS[@]}"
               echo $OldWorkflowID ${CIRCLE_WORKFLOW_ID:0:7}
-              for item in "${STACKS[@]}"
+              
+              for (( index=0; index<${#STACKS[@]}; index+=2 )) 
               do
-                if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${item##*-}" ]]
+                if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${STACKS[index]##*-}" ]]
                 then
                     # your code here
                     echo "----------Deletes cofirmed------------"
-                    aws s3 rm "s3://${item}" --recursive
-                    aws cloudformation delete-stack --stack-name "${item}"
-                    aws cloudformation delete-stack --stack-name "${item}"
+                    aws s3 rm "s3://${STACKS[index]##*-}" --recursive
+                    aws cloudformation delete-stack --stack-name "${STACKS[index]##*-}"
+                    aws cloudformation delete-stack --stack-name "${STACKS[index]##*-}"
                 else
                     echo "----------Cannot cleanup------------"
                 fi
+              done
 
 
 workflows:
