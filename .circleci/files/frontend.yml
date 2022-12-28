@@ -32,3 +32,10 @@ Outputs:
   WebsiteURL:
     Value: !GetAtt WebsiteBucket.WebsiteURL
     Description: URL for website hosted on S3
+  WorkflowID:
+    Value: !Sub ${ID}
+    Description: URL for website hosted on S3
+    Export:
+      Name: ID
+
+# VS Code Extension Version: 1.5.0
