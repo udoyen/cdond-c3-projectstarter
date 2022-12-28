@@ -26,7 +26,8 @@ Resources:
           Effect: Allow
           Principal: '*'
           Action: s3:GetObject
-          Resource: !Join ['', ['arn:aws:s3:::', !Ref 'WebsiteBucket', /*]]
+          ResouExport:
+    #   Name: IDrce: !Join ['', ['arn:aws:s3:::', !Ref 'WebsiteBucket', /*]]
 
 Outputs:
   WebsiteURL:
@@ -35,7 +36,7 @@ Outputs:
   ID:
     Value: !Sub ${ID}
     Description: Unique identifier for stack
-    Export:
-      Name: ID
+    # Export:
+    #   Name: ID
 
 # VS Code Extension Version: 1.5.0

@@ -515,9 +515,12 @@ jobs:
             command: |
               # your code here
               # Fetch the Old workflow ID
-              export OldWorkflowID=$(aws cloudformation \
-                list-exports --query "Exports[?Name==\`ID\`].Value" \
-                  --no-paginate --output text)
+              # export OldWorkflowID=$(aws cloudformation \
+              #   list-exports --query "Exports[?Name==\`ID\`].Value" \
+              #     --no-paginate --output text)
+              export OldWorkflowID=$(aws cloudformation describe-stacks \ 
+                   --query "Stacks[].Outputs[?OutputKey==\'ID\'].OutputValue" \
+                      --no-paginate --output text)
               echo OldWorkflowID: "${OldWorkflowID}"
               echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
               export "${CIRCLE_WORKFLOW_ID:0:7}"
