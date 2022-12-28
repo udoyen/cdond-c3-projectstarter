@@ -533,9 +533,9 @@ jobs:
                 then
                     # your code here
                     echo "----------Deletes cofirmed------------"
-                    aws s3 rm "s3://${STACKS[index]##*-}" --recursive
-                    aws cloudformation delete-stack --stack-name "${STACKS[index]##*-}"
-                    aws cloudformation delete-stack --stack-name "${STACKS[index]##*-}"
+                    aws s3 rm "s3://bucket-${STACKS[index]##*-}" --recursive
+                    aws cloudformation delete-stack --stack-name "${STACKS[index]}"
+                    aws cloudformation delete-stack --stack-name "${STACKS[((++index))]}"
                 else
                     echo "----------Cannot cleanup------------"
                 fi
