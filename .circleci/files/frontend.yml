@@ -26,8 +26,7 @@ Resources:
           Effect: Allow
           Principal: '*'
           Action: s3:GetObject
-          ResouExport:
-    #   Name: IDrce: !Join ['', ['arn:aws:s3:::', !Ref 'WebsiteBucket', /*]]
+          ResouExport: !Join ['', ['arn:aws:s3:::', !Ref 'WebsiteBucket', /*]]
 
 Outputs:
   WebsiteURL:
