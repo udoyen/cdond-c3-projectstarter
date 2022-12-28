@@ -521,7 +521,6 @@ jobs:
               echo $OldWorkflowID >> ~/OldWorkflowID.txt
               cat ~/OldWorkflowID.txt
               export OldWorkflowID=$(cat ~/OldWorkflowID.txt)
-              # export OldWorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"
               echo OldWorkflowID: "${OldWorkflowID}"
               echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
               # Fetch the stack names
@@ -531,6 +530,7 @@ jobs:
         - run:
             name: Remove old stacks
             command: |
+              echo $OldWorkflowID $STACKS ${CIRCLE_WORKFLOW_ID:0:7}
               if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
               then
                   # your code here
