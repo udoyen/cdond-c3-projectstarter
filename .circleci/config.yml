@@ -546,10 +546,8 @@ jobs:
               do
                 if [[ "${CIRCLE_WORKFLOW_ID}" != "$i" ]]
                 then
-                    echo "bucket-$i"
-                    echo "bucket-${i}"
                     echo "----------------Delete confirmed-----------"
-                    aws s3 rm "s3://bucket-$i" --recursive
+                    aws s3 rm "s3://udapeople-$i" --recursive
                     aws cloudformation delete-stack --stack-name "udapeople-frontend-$i"
                     aws cloudformation delete-stack --stack-name "udapeople-backend-$i"
                 else
