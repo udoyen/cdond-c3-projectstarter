@@ -34,7 +34,7 @@ Outputs:
     Description: URL for website hosted on S3
   ID:
     Value: !Sub ${ID}
-    Description: URL for website hosted on S3
+    Description: Unique identifier for stack
     Export:
       Name: ID
 
