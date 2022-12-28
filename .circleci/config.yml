@@ -544,7 +544,7 @@ jobs:
               # done
               for i in "${STACKSID[@]}"
               do
-                if [[ "${CIRCLE_WORKFLOW_ID}" != "$i" ]]
+                if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "$i" ]]
                 then
                     echo "----------------Delete confirmed-----------"
                     aws s3 rm "s3://udapeople-$i" --recursive
