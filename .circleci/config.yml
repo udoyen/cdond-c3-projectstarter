@@ -518,8 +518,6 @@ jobs:
               export OldWorkflowID=$(aws cloudformation \
                 list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
                   --no-paginate --output text)
-              # export OldWorkflowID=($(aws cloudformation describe-stacks --query "Stacks[*].Outputs[?OutputKey==\`ID\`].OutputValue" --no-paginate --output text))
-              echo OldWorkflowID: "${OldWorkflowID}"
               echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
               export "${CIRCLE_WORKFLOW_ID:0:7}"
               # Fetch the stack names          
@@ -528,7 +526,7 @@ jobs:
               echo Stack names: "${STACKS[@]}"
         - run:
             name: Remove old stacks and files
-            command: |              
+            command: |       
               if [[ ${CIRCLECI_WORKFLOW_ID:0:7} =~ ${OldWorkflowID} ]]
               then
                   # your code here
