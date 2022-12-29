@@ -10,23 +10,12 @@
    apt:
      upgrade: yes
 
- - name: Install the gpg key for nodejs LTS
-   apt_key:
-     url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
-     state: present
-    
- - name: Install the nodejs LTS repos
-   become: yes
-   apt_repository:
-     repo: "deb https://deb.nodesource.com/node_{{ NODEJS_VERSION }}.x {{ ansible_distribution_release }} main"
-     state: present
-     update_cache: yes
-
- - name: Install the nodejs
+ - name: "install dependencies."
    become: yes
    apt:
-     name: nodejs
-     state: present
+     name: ['nodejs', 'npm']
+     state: latest
+     update_cache: yes
 
  - name: "install pm2"
    become: yes
@@ -36,4 +25,4 @@
      production: yes
      state: present
 
-# VS Code Extension Version: 1.5.0
+# VS Code Extension Version: 1.5.1
