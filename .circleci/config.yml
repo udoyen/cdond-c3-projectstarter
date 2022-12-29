@@ -7,7 +7,6 @@ orbs:
 parameters:
   region:
     type: string
-    description: aws region
     default: us-east-1
 
 commands:
@@ -508,7 +507,7 @@ jobs:
             aws cloudformation deploy \
             --template-file .circleci/files/cloudfront.yml \
             --stack-name InitialStack \
-            --parameter-overrides WorkflowID=${CIRCLE_WORKFLOW_ID:0:7} Region=<<parameters.region>> \
+            --parameter-overrides WorkflowID=${CIRCLE_WORKFLOW_ID:0:7} Region=<< pipeline.parameters.region >> \
             --tags project=udapeople
       # Here's where you will add some code to rollback on failure
       - revert-migrations
