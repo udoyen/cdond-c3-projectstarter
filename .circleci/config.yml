@@ -513,7 +513,7 @@ jobs:
         # Checkout code from git
         - checkout
         - run:
-            name: Get old stack workflow id
+            name: Get old stack workflow id and remove old stacks and bucket contents
             command: |
               # Fetch the Old workflow ID
               export OldWorkflowID=$(aws cloudformation \
@@ -535,7 +535,7 @@ jobs:
               #   then
               #       # your code here
               #       echo "----------Deletes cofirmed------------"
-              #       aws s3 rm "s3://bucket-${STACKS[index]##*-}" --recursive
+              #       aws s3 rm "s3://udapeople-${STACKS[index]##*-}" --recursive
               #       aws cloudformation delete-stack --stack-name "${STACKS[index]}"
               #       aws cloudformation delete-stack --stack-name "${STACKS[((++index))]}"
               #   else
