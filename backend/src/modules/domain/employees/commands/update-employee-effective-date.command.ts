@@ -2,10 +2,10 @@ import { ICommand } from '../../../common/commands';
 
 export class UpdateEmployeeEffectiveDate implements ICommand {
   employeeId: number;
-  effectiveDate: string;
+  effectiveDate: Date;
 
   constructor(employeeId: number, effectiveDate: string) {
     this.employeeId = employeeId;
-    this.effectiveDate = effectiveDate;
+    this.effectiveDate = new Date(effectiveDate);
   }
 }
