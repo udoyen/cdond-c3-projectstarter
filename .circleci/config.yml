@@ -180,6 +180,7 @@ jobs:
              npm audit fix --force
              npm update path-parse --depth 4
              npm audit fix
+             npm audit fix
              npm audit --audit-level=critical
       - slack/notify:
           branch_pattern: master
