@@ -176,11 +176,11 @@ jobs:
           command: |
              cd frontend
              npm install
-             npm audit fix --audit-level=critical --force
              npm audit fix --force
-             npm update path-parse --depth 4
              npm audit fix
-             npm audit fix
+             npm install --save-dev html-webpack-plugin@5.5.0
+             npm update js-yaml --depth 4
+             npm audit fix --audit-level=critical --force
              npm audit --audit-level=critical
       - slack/notify:
           branch_pattern: master
