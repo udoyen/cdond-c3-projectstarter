@@ -2,10 +2,10 @@ import { ICommand } from '../../../common/commands';
 
 export class UpdateEmployeeBirthdate implements ICommand {
   employeeId: number;
-  birthdate: Date;
+  birthdate: string;
 
   constructor(employeeId: number, birthdate: string) {
     this.employeeId = employeeId;
-    this.birthdate = new Date(birthdate);
+    this.birthdate = birthdate;
   }
 }
