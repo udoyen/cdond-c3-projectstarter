@@ -509,7 +509,7 @@ jobs:
       - remove-bucket-contents
       - destroy-environment
 
-  prom  -node-exporter:
+  prom-node-exporter:
     docker:
       - image: python:3.10-alpine3.16
     steps:
