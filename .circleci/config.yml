@@ -298,12 +298,19 @@ jobs:
             # Your code here
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
+      - run:
+          name: node_exporter
+          command: |
+            # Your code here
+            cd .circleci/ansible
+            ansible-playbook -i inventory.txt node-exporter.yml
       # - slack/notify:
       #     branch_pattern: master
       #     channel: C04CPS646NP
       #     event: fail
       #     template: basic_fail_1
-      # Here's where you will add some code to rollback on failure  
+      # Here's where you will add some code to rollback on failure 
+      - remove-bucket-contents
       - destroy-environment 
 
 
@@ -507,33 +514,7 @@ jobs:
       # Here's where you will add some code to rollback on failure
       - revert-migrations
       - remove-bucket-contents
-      - destroy-environment
-
-  prom-node-exporter:
-    docker:
-      - image: python:3.10-alpine3.16
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints: ["6c:f8:3d:35:4b:aa:19:6a:94:22:b8:52:e1:75:9d:23"]
-            
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update aws-cli tar gzip ansible nodejs npm
-      - restore_cache:
-          keys: [backend-build]
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: Setup prometheus node exporter on backend
-          command: |
-            cd .circleci/ansible
-            cat inventory.txt
-            ansible-playbook -i inventory.txt node-exporter.yml 
-      # Here's where you will add some code to rollback on failure
-      - remove-bucket-contents
-      - destroy-environment  
+      - destroy-environment 
 
   cleanup:
       docker:
@@ -607,7 +588,7 @@ workflows:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
           filters:
             branches:
-              only: [master]
+              only: [master]  
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - run-migrations:
@@ -620,8 +601,6 @@ workflows:
           requires: [deploy-backend, deploy-frontend]
       - cloudfront-update:
           requires: [smoke-test]
-      - prom-node-exporter:
-          requires: [smoke-test]  
       - cleanup:
           requires: [cloudfront-update]
 
